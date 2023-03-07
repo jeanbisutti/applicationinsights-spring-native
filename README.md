@@ -1,0 +1,1 @@
+# Application Insights - Spring native
