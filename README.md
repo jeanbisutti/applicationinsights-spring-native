@@ -6,14 +6,33 @@ This project allows providing telemetry data on Microsoft Azure for [Spring Boot
 
 ### Instrument the code
 
-You have to use the following dependency:
+First, you have to add the following repository to your project:
+
 ```xml
-<dependency>
-    <groupId>org.jeanbisutti</groupId>
-    <artifactId>applicationinsights-spring-native</artifactId>
-    <version>0.1-SNAPSHOT</version>
-</dependency>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 ```
+
+After, you have to add the following dependency:
+
+```xml
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+    <dependency>
+        <groupId>com.github.jeanbisutti</groupId>
+        <artifactId>applicationinsights-spring-native</artifactId>
+        <version>main-SNAPSHOT</version>
+    </dependency>
+```
+
 This dependency is a Spring Boot starter that will provide telemetry data for HTTP requests and [some JVM metrics](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/runtime-metrics/library#jvm-runtime-metrics).
 
 You can configure additional [OpenTelemetry instrumentations](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks).
