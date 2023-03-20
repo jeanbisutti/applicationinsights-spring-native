@@ -2,13 +2,11 @@
 
 This project allows providing telemetry data on Microsoft Azure for [Spring Boot applications packaged as GraalVM native images](https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html).
 
-[![](https://jitpack.io/v/jeanbisutti/applicationinsights-spring-native.svg)](https://jitpack.io/#jeanbisutti/applicationinsights-spring-native)
-
 ## How to use this project
 
 ### Instrument the code
 
-First, you have to add the following repository to your project:
+First, you have to install this project in your local repository (`mvn install`) or add the following repository to your project:
 
 ```xml
     <repositories>
@@ -22,12 +20,6 @@ First, you have to add the following repository to your project:
 After, you have to add the following dependency:
 
 ```xml
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
     <dependency>
         <groupId>com.github.jeanbisutti</groupId>
         <artifactId>applicationinsights-spring-native</artifactId>
