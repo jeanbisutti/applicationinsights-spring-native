@@ -4,7 +4,7 @@ This project allows providing telemetry data on Microsoft Azure for [Spring Boot
 
 ## How to use this project
 
-### Instrument the code
+### Enable telemetry
 
 First, you have to install this project in your local repository (`mvn install`) or add the following repository to your project:
 
@@ -33,7 +33,7 @@ You can configure additional [OpenTelemetry instrumentations](https://github.com
 
 With this project, the [OpenTelemetry instrumentation for JDBC](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/jdbc/library) and the [OpenTelemetry Logback appender](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/logback/logback-appender-1.0/library) should work. A project example is available [here](https://github.com/jeanbisutti/spring-native-image-aot-inst-poc/tree/master/otel-programmatic-instrumentation).
 
-If you have an issue with other OpenTelemetry instrumentation libraries  used with native images, don't hesitate to raise an issue on OpenTelemetry side or this project.
+If you have an issue with other OpenTelemetry instrumentation libraries used with native images, don't hesitate to raise an issue on OpenTelemetry side or this project.
 
 ### Configure a connection string to an Application Insights resource on Azure
 
