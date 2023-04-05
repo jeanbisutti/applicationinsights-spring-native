@@ -4,11 +4,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
-public class OtelGlobalRegistrationConfig {
+public class JvmMetricsConfig {
 
     @Bean
-    public OtelGlobalRegistrationPostProcessor otelGlobalRegistrationPostProcessor() {
-        return new OtelGlobalRegistrationPostProcessor();
+    public JvmMetricsPostProcessor jvmMetricsPostProcessor() {
+        return new JvmMetricsPostProcessor();
     }
 
 }

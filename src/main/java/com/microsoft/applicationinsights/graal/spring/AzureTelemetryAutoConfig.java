@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureBefore(OpenTelemetryAutoConfiguration.class)
-@Import({AzureTelemetryConfig.class, OtelGlobalRegistrationConfig.class})
+@Import({AzureTelemetryConfig.class, OtelGlobalRegistrationConfig.class, JvmMetricsConfig.class})
 @EnableOpenTelemetry // Could be removed after the otel-java-instrumentation release in march
 public class AzureTelemetryAutoConfig {
 
