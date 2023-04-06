@@ -1,5 +1,10 @@
 [
   {
+    "name": "io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender",
+    "allDeclaredMethods": true,
+    "allDeclaredConstructors": true
+  },
+  {
     "name": "com.azure.monitor.opentelemetry.exporter.AzureMonitorLogRecordExporter",
     "allDeclaredMethods": true,
     "allDeclaredFields": true
