@@ -57,7 +57,6 @@ public class AzureTelemetryConfig {
     }
 
     public Void initOTelLogger(LogRecordExporter logRecordExporter) {
-        System.out.println("AzureTelemetryConfig.initOTelLogger");
         if (azureMonitorExporterBuilder != null) {
             SdkLoggerProvider loggerProvider =
                     SdkLoggerProvider.builder()
