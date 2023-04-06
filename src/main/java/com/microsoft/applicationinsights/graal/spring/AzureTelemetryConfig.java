@@ -24,6 +24,7 @@ public class AzureTelemetryConfig {
 
     public AzureTelemetryConfig(@Value("${applicationinsights.connection.string:}") String connectionStringSysProp) {
         this.azureMonitorExporterBuilder = createAzureMonitorExporterBuilder(connectionStringSysProp);
+        printWarningIfNotNativeImageRuntime();
     }
 
     private AzureMonitorExporterBuilder createAzureMonitorExporterBuilder(String connectionStringSysProp) {
@@ -41,6 +42,14 @@ public class AzureTelemetryConfig {
             LOGGER.log(Level.WARNING, CONNECTION_STRING_ERROR_MESSAGE);
         }
         return null;
+    }
+
+    private void printWarningIfNotNativeImageRuntime() {
+        String imageCode = System.getProperty("org.graalvm.nativeimage.imagecode");
+        boolean notNativeImageRuntime = imageCode == null;
+        if(notNativeImageRuntime) {
+            LOGGER.log(Level.WARNING, "With a non-native image runtime environment, you should use the Application Insights agent.");
+        }
     }
 
     @Bean
@@ -76,9 +85,7 @@ public class AzureTelemetryConfig {
                             .addLogRecordProcessor(SimpleLogRecordProcessor.create(logRecordExporter))
                             .build();
             GlobalLoggerProvider.set(loggerProvider);
-
         }
     }
-
 
 }
