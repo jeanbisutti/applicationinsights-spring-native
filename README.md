@@ -37,7 +37,9 @@ If you have an issue with other OpenTelemetry instrumentation libraries used wit
 
 ### Configure a connection string to an Application Insights resource on Azure
 
-You can do it in two different ways:
+First, [copy the connection string of your Application Insights resoure](https://learn.microsoft.com/en-us/azure/azure-monitor/app/java-standalone-config#connection-string).
+
+You can then configure the connection string in two different ways:
 * With the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable 
 * With the `applicationinsights.connection.string` system property. You can use `-Dapplicationinsights.connection.string` or add the property to your `application.properties` file.
 
