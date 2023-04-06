@@ -19,14 +19,24 @@ import java.util.logging.Logger;
 public class AzureTelemetryConfig {
 
     private static final Logger LOGGER = Logger.getLogger(ConnectionStringRetriever.class.getName());
+    private static final String CONNECTION_STRING_ERROR_MESSAGE = "Unable to find the Application Insights connection string.";
     private AzureMonitorExporterBuilder azureMonitorExporterBuilder;
 
     public AzureTelemetryConfig(@Value("${applicationinsights.connection.string:}") String connectionStringSysProp) {
         Optional<String> connectionString = ConnectionStringRetriever.retrieveConnectionString(connectionStringSysProp);
         if (connectionString.isPresent()) {
-            azureMonitorExporterBuilder = new AzureMonitorExporterBuilder().connectionString(connectionString.get());
+
+            try {
+                azureMonitorExporterBuilder = new AzureMonitorExporterBuilder().connectionString(connectionString.get());
+            } catch (IllegalArgumentException illegalArgumentException) {
+                String errorMessage = illegalArgumentException.getMessage();
+                if (errorMessage.contains("InstrumentationKey")) {
+                    LOGGER.log(Level.WARNING, CONNECTION_STRING_ERROR_MESSAGE);
+                }
+
+            }
         } else {
-            LOGGER.log(Level.WARNING, "Unable to find the Application Insights connection string.");
+            LOGGER.log(Level.WARNING, CONNECTION_STRING_ERROR_MESSAGE);
         }
     }
 
@@ -56,7 +66,7 @@ public class AzureTelemetryConfig {
         return logRecordExporter;
     }
 
-    public Void initOTelLogger(LogRecordExporter logRecordExporter) {
+    public void initOTelLogger(LogRecordExporter logRecordExporter) {
         if (azureMonitorExporterBuilder != null) {
             SdkLoggerProvider loggerProvider =
                     SdkLoggerProvider.builder()
@@ -65,7 +75,6 @@ public class AzureTelemetryConfig {
             GlobalLoggerProvider.set(loggerProvider);
 
         }
-        return null;
     }
 
 
