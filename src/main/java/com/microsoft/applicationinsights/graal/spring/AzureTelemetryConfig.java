@@ -23,21 +23,24 @@ public class AzureTelemetryConfig {
     private AzureMonitorExporterBuilder azureMonitorExporterBuilder;
 
     public AzureTelemetryConfig(@Value("${applicationinsights.connection.string:}") String connectionStringSysProp) {
+        this.azureMonitorExporterBuilder = createAzureMonitorExporterBuilder(connectionStringSysProp);
+    }
+
+    private AzureMonitorExporterBuilder createAzureMonitorExporterBuilder(String connectionStringSysProp) {
         Optional<String> connectionString = ConnectionStringRetriever.retrieveConnectionString(connectionStringSysProp);
         if (connectionString.isPresent()) {
-
             try {
-                azureMonitorExporterBuilder = new AzureMonitorExporterBuilder().connectionString(connectionString.get());
+                return new AzureMonitorExporterBuilder().connectionString(connectionString.get());
             } catch (IllegalArgumentException illegalArgumentException) {
                 String errorMessage = illegalArgumentException.getMessage();
                 if (errorMessage.contains("InstrumentationKey")) {
-                    LOGGER.log(Level.WARNING, CONNECTION_STRING_ERROR_MESSAGE);
+                    LOGGER.log(Level.WARNING, CONNECTION_STRING_ERROR_MESSAGE + " Please check you have not used an instrumentation key instead of a connection string");
                 }
-
             }
         } else {
             LOGGER.log(Level.WARNING, CONNECTION_STRING_ERROR_MESSAGE);
         }
+        return null;
     }
 
     @Bean
