@@ -51,11 +51,13 @@ public class AzureTelemetryConfig {
         if (azureMonitorExporterBuilder == null) {
             return null;
         }
-        return azureMonitorExporterBuilder.buildLogRecordExporter();
+        LogRecordExporter logRecordExporter = azureMonitorExporterBuilder.buildLogRecordExporter();
+        initOTelLogger(logRecordExporter);
+        return logRecordExporter;
     }
 
-    @Bean
     public Void initOTelLogger(LogRecordExporter logRecordExporter) {
+        System.out.println("AzureTelemetryConfig.initOTelLogger");
         if (azureMonitorExporterBuilder != null) {
             SdkLoggerProvider loggerProvider =
                     SdkLoggerProvider.builder()
