@@ -16,7 +16,6 @@ class JvmMetricsPostProcessor implements BeanPostProcessor, Ordered {
             Cpu.registerObservers(openTelemetry);
             MemoryPools.registerObservers(openTelemetry);
             Threads.registerObservers(openTelemetry);
-            GarbageCollector.registerObservers(openTelemetry);
         }
         return bean;
     }
