@@ -27,11 +27,15 @@ After, you have to add the following dependency:
     </dependency>
 ```
 
-This dependency is a Spring Boot starter that will provide telemetry data for HTTP requests and [some JVM metrics](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/runtime-metrics/library#jvm-runtime-metrics).
+This dependency is a Spring Boot starter that will provide telemetry data for HTTP requests.
 
 You can configure additional [OpenTelemetry instrumentations](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks).
 
-With this project, the [OpenTelemetry instrumentation for JDBC](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/jdbc/library) and the [OpenTelemetry Logback appender](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/logback/logback-appender-1.0/library) should work. A project example is available [here](https://github.com/jeanbisutti/spring-native-image-aot-inst-poc/tree/master/otel-programmatic-instrumentation).
+With this project, the [OpenTelemetry instrumentation for JDBC](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/jdbc/library) and the [OpenTelemetry Logback appender](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/logback/logback-appender-1.0/library) should work.
+
+Project examples using Application Insights for Spring native:
+* [Spring Petclinic application](https://github.com/jeanbisutti/spring-petclinic/blob/native-ai/readme.md)
+* [A basic Spring Boot application](https://github.com/jeanbisutti/spring-native-image-aot-inst-poc/tree/master/otel-programmatic-instrumentation)
 
 If you have an issue with other OpenTelemetry instrumentation libraries used with native images, don't hesitate to raise an issue on OpenTelemetry side or this project.
 
