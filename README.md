@@ -35,7 +35,7 @@ Project examples using Application Insights for Spring native:
 * [Spring Petclinic application](https://github.com/jeanbisutti/spring-petclinic/blob/native-ai/readme.md)
 * [A basic Spring Boot application](https://github.com/jeanbisutti/spring-native-image-aot-inst-poc/tree/master/otel-programmatic-instrumentation)
 
-If you have an issue with OpenTelemetry instrumentation libraries used with native images, don't hesitate to raise an issue on OpenTelemetry side or this project.
+_If you have an issue with OpenTelemetry instrumentation libraries used with native images, don't hesitate to raise an issue on OpenTelemetry side or this project._
 
 ### Configure a connection string to an Application Insights resource on Azure
 
