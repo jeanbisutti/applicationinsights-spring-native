@@ -18,13 +18,20 @@ import java.util.logging.Logger;
 @Configuration
 public class AzureTelemetryConfig {
 
-    private static final Logger LOGGER = Logger.getLogger(ConnectionStringRetriever.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AzureTelemetryConfig.class.getName());
+
     private static final String CONNECTION_STRING_ERROR_MESSAGE = "Unable to find the Application Insights connection string.";
+
+    private static final String APPLICATIONINSIGHTS_NON_NATIVE_ENABLED = "applicationinsights.native.spring.non-native.enabled";
+
     private AzureMonitorExporterBuilder azureMonitorExporterBuilder;
 
     public AzureTelemetryConfig(@Value("${applicationinsights.connection.string:}") String connectionStringSysProp) {
-        this.azureMonitorExporterBuilder = createAzureMonitorExporterBuilder(connectionStringSysProp);
-        printWarningIfNotNativeImageRuntime();
+        if (isNativeRuntimeExecution() || Boolean.getBoolean(APPLICATIONINSIGHTS_NON_NATIVE_ENABLED)) {
+            this.azureMonitorExporterBuilder = createAzureMonitorExporterBuilder(connectionStringSysProp);
+        } else {
+            LOGGER.log(Level.INFO, "Application Insights for Spring native is disabled for a non-native image runtime environment. We recommend using the Application Insights Java agent.");
+        }
     }
 
     private AzureMonitorExporterBuilder createAzureMonitorExporterBuilder(String connectionStringSysProp) {
@@ -44,12 +51,9 @@ public class AzureTelemetryConfig {
         return null;
     }
 
-    private void printWarningIfNotNativeImageRuntime() {
+    private static boolean isNativeRuntimeExecution() {
         String imageCode = System.getProperty("org.graalvm.nativeimage.imagecode");
-        boolean notNativeImageRuntime = imageCode == null;
-        if(notNativeImageRuntime) {
-            LOGGER.log(Level.WARNING, "With a non-native image runtime environment, you should use the Application Insights agent.");
-        }
+        return imageCode != null;
     }
 
     @Bean
