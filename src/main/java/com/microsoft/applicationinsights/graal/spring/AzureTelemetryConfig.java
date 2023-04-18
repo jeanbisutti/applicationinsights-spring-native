@@ -22,12 +22,10 @@ public class AzureTelemetryConfig {
 
     private static final String CONNECTION_STRING_ERROR_MESSAGE = "Unable to find the Application Insights connection string.";
 
-    private static final String APPLICATIONINSIGHTS_NON_NATIVE_ENABLED = "applicationinsights.native.spring.non-native.enabled";
-
     private AzureMonitorExporterBuilder azureMonitorExporterBuilder;
 
     public AzureTelemetryConfig(@Value("${applicationinsights.connection.string:}") String connectionStringSysProp) {
-        if (isNativeRuntimeExecution() || Boolean.getBoolean(APPLICATIONINSIGHTS_NON_NATIVE_ENABLED)) {
+        if (AzureTelemetry.isEnabled()) {
             this.azureMonitorExporterBuilder = createAzureMonitorExporterBuilder(connectionStringSysProp);
         } else {
             LOGGER.log(Level.INFO, "Application Insights for Spring native is disabled for a non-native image runtime environment. We recommend using the Application Insights Java agent.");
@@ -51,10 +49,6 @@ public class AzureTelemetryConfig {
         return null;
     }
 
-    private static boolean isNativeRuntimeExecution() {
-        String imageCode = System.getProperty("org.graalvm.nativeimage.imagecode");
-        return imageCode != null;
-    }
 
     @Bean
     public MetricExporter metricExporter() {

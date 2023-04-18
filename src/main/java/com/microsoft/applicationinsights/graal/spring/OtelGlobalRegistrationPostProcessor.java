@@ -11,7 +11,7 @@ class OtelGlobalRegistrationPostProcessor implements BeanPostProcessor, Ordered 
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if(bean instanceof OpenTelemetry openTelemetry) {
+        if(AzureTelemetry.isEnabled() && bean instanceof OpenTelemetry openTelemetry) {
             GlobalOpenTelemetry.set(openTelemetry);
         }
         return bean;
