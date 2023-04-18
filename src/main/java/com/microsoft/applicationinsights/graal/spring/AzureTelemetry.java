@@ -1,13 +1,13 @@
 package com.microsoft.applicationinsights.graal.spring;
 
-class AzureTelemetry {
+public class AzureTelemetry {
 
     private static final String APPLICATIONINSIGHTS_NON_NATIVE_ENABLED = "applicationinsights.native.spring.non-native.enabled";
 
     private AzureTelemetry() {
     }
 
-    static boolean isEnabled() {
+    public static boolean isEnabled() {
         return isNativeRuntimeExecution() || Boolean.getBoolean(APPLICATIONINSIGHTS_NON_NATIVE_ENABLED);
     }
 
@@ -15,6 +15,5 @@ class AzureTelemetry {
         String imageCode = System.getProperty("org.graalvm.nativeimage.imagecode");
         return imageCode != null;
     }
-
 
 }
