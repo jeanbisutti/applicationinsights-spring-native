@@ -1,6 +1,7 @@
 package com.microsoft.applicationinsights.graal.spring;
 
 import com.azure.monitor.opentelemetry.exporter.AzureMonitorExporterBuilder;
+import com.azure.monitor.opentelemetry.exporter.implementation.quickpulse.QuickPulse;
 import io.opentelemetry.api.logs.GlobalLoggerProvider;
 import io.opentelemetry.sdk.logs.SdkLoggerProvider;
 import io.opentelemetry.sdk.logs.export.LogRecordExporter;
@@ -21,19 +22,25 @@ public class AzureTelemetryConfig {
     private static final Logger LOGGER = Logger.getLogger(AzureTelemetryConfig.class.getName());
 
     private static final String CONNECTION_STRING_ERROR_MESSAGE = "Unable to find the Application Insights connection string.";
+    private QuickPulse quickPulse;
+
+    private String connectionString;
 
     private AzureMonitorExporterBuilder azureMonitorExporterBuilder;
 
     public AzureTelemetryConfig(@Value("${applicationinsights.connection.string:}") String connectionStringSysProp) {
         if (AzureTelemetry.isEnabled()) {
-            this.azureMonitorExporterBuilder = createAzureMonitorExporterBuilder(connectionStringSysProp);
+            Optional<String> potentialConnectionString = ConnectionStringRetriever.retrieveConnectionString(connectionStringSysProp);
+            this.azureMonitorExporterBuilder = createAzureMonitorExporterBuilder(potentialConnectionString);
+            if(potentialConnectionString.isPresent()) {
+                this.connectionString = potentialConnectionString.get();
+            }
         } else {
             LOGGER.log(Level.INFO, "Application Insights for Spring native is disabled for a non-native image runtime environment. We recommend using the Application Insights Java agent.");
         }
     }
 
-    private AzureMonitorExporterBuilder createAzureMonitorExporterBuilder(String connectionStringSysProp) {
-        Optional<String> connectionString = ConnectionStringRetriever.retrieveConnectionString(connectionStringSysProp);
+    private AzureMonitorExporterBuilder createAzureMonitorExporterBuilder(Optional<String> connectionString) {
         if (connectionString.isPresent()) {
             try {
                 return new AzureMonitorExporterBuilder().connectionString(connectionString.get());
@@ -63,7 +70,7 @@ public class AzureTelemetryConfig {
         if (azureMonitorExporterBuilder == null) {
             return null;
         }
-        return azureMonitorExporterBuilder.buildTraceExporter();
+        return azureMonitorExporterBuilder.buildTraceExporterWithLiveMetrics();
     }
 
     @Bean
